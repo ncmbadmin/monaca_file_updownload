@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <script src="js/ncmb-latest.min.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        var appKey    = "YOUR_APP_KEY";
+        var clientKey = "YOUR_CLIENT_KEY";
+        var fileName = "uploaded.jpg"; //保存File名
+        
+        ///// Called when app launch
+        $(function() {
+          NCMB.initialize(appKey, clientKey);
+        });
+    
+       function toBlob(base64) {
+            var bin = atob(base64.replace(/^.*,/, ''));
+            var buffer = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) {
+                buffer[i] = bin.charCodeAt(i);
+            }
+            // Blobを作成
+            try{
+                var blob = new Blob([buffer.buffer], {
+                    type: 'image/png'
+                });
+            }catch (e){
+                return false;
+            }
+            return blob;
+       }
+
+   　　 function snapPicture () {
+            navigator.camera.getPicture (onSuccess, onFail,
+                { quality: 50, destinationType: Camera.DestinationType.DATA_URL});
+                
+            //成功した際に呼ばれるコールバック関数
+            function onSuccess (imageData) {
+                var byteCharacters = toBlob(imageData);
+                var NCMBFile = new NCMB.File(fileName, byteCharacters, "image/png");
+                NCMBFile.save().then(function() {
+                  //NCMBサーバーからファイルをダウンロード
+                  var getFile =  new NCMB.File(fileName);
+                  var image_canvas = document.getElementById("showImage");
+                  getFile.fetchImgSource(image_canvas);
+                },
+                function(error) {
+                　// The file either could not be read, or could not be saved to NCMB.
+                  alert(JSON.stringify(error));
+                });
+            }
+    
+            //失敗した場合に呼ばれるコールバック関数
+            function onFail (message) {
+                alert ('エラーです: ' + message);
+            }
+   　 }
+    </script>
+</head>
+<body>
+    <h2>NiftyCloud mobile backend!</h2>
+    <a class="button--large" onclick="snapPicture()">Take picture and save</a>
+    <img id="showImage" width="280" height="350"/>
+</body>
+</html>
