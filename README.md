@@ -1,24 +1,23 @@
-、# Monaca x NIFTYCLOUD mobile backend カメラ写真をアップ・ダウンロードするサンプル
+﻿# Monaca x NIFTY Cloud mobile backend カメラ写真をアップ・ダウンロードするサンプル
 
 ===
 
 # Overview
 
-こちらはMonacaを利用して、カメラで写真を撮り、画像ファイルをmBaaSサーバーにアップし、ダウンロードするサンプルです。
-* Android, iOSアプリをHTML, JavaScriptで簡単に作れるツール[Monaca](https://ja.monaca.io/)
-* アプリのサーバー機能を簡単に作れるツール[Nifty cloud mobile backend](http://mb.cloud.nifty.com/) (以下からmBaaS)
+Monacaを用いて作ったアプリとmobile backendを連携して、スマホカメラで撮った写真をmBaaSサーバにアップロードする機能を実装するサンプルコードとなります。
+* HTML/CSS/JavaScriptでマルチプラットフォーム（iOS/Android/Windowsなど）にアプリを開発できる統合開発環境[Monaca](https://ja.monaca.io/)
+* スマホアプリのサーバ側機能（プッシュ通知、会員管理、DBなど）をサーバ開発不要で実装できる[NIFTY Cloud mobile backend](http://mb.cloud.nifty.com/?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
 
 ![overview](readme-img/overview.JPG "概要図")
 
 ## Demo
 
-* MonacaでgithubのURL(Download zip file)をインポートし、
-アプリキーとクライントキーを設定し、アプリを起動します。
-「Take picture and save」ボタンを押し、カメラを起動し、
-写真を撮り、自動的にファイル保存します。
-保存したファイルをダウンロードし、画面に表示します
+* MonacaでgithubのURL（https://github.com/ncmbadmin/monaca_file_updownload/archive/master.zip）をインポートし、アプリケーションキーとクライントキーを設定してください。
 
-* トップ画面
+* 「Take picture and save」ボタンを押すと、カメラが起動します。写真を撮ると、自動的にmBaaS上へファイルを保存します。
+* 保存したファイルをダウンロードし、画面に表示します
+
+* 起動画面
 
 ![demo1](readme-img/demo1.JPG "1")
 
@@ -46,7 +45,8 @@ $(function() {
 });
 ```
 
-上記のコードでキーを指定し、NCMB.initialize(appKey, clientKey), mBaaSサーバーと連携を行います。
+上記のコードでアプリケーションキーとクライアントキーを指定し、
+NCMB.initialize(appKey, clientKey)　でmBaaSサーバと連携を行います。
 
 * カメラ処理
 ```JavaScript
@@ -77,61 +77,63 @@ $(function() {
 　　 }
 ```
 
-NCMBFileを利用し、save()メソッドを実装すると、ファイルを非同期的にアップロードします。
-アップロードが成功したら、getFileを利用し、ファイルダウンロードを行い、
-imgタグ"showImage"のドキュメントオブジェクトをfetchImgSource()に渡し、ダウンロードしたファイル中身を
-表示することができます。
+NCMBFileを利用してsave()メソッドを実行すると、ファイルを非同期にてアップロードします。
+アップロードが成功したら、getFileを利用してファイルのダウンロードを行います。
+imgタグ"showImage"のドキュメントオブジェクトをfetchImgSource()に渡し、ダウンロードしたファイルの中身を表示させます。
 
 ## Requirement
 
 * Monaca環境：カメラプラグイン
-* Nifty cloud mobile backend Javascript SDK version 1.2.6
-ダウンロード：[Javascript SDK](http://mb.cloud.nifty.com/doc/current/introduction/sdkdownload_javascript.html)
+* NIFTY Cloud mobile backend Javascript SDK version 1.2.6
+ダウンロード：[Javascript SDK](http://mb.cloud.nifty.com/doc/current/introduction/sdkdownload_javascript.html?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
 
 ## Installation
 
 * Monacaで新規アプリ作成し、プロジェクトをインポートする。
-  - monacaの利用登録する
+  - Monacaの利用登録する
     [Monaca](https://ja.monaca.io/)
-![monaca](readme-img/monaca.JPG "新規プロジェクト")
-  - monacaで新規プロジェクトを作成する
+![Monaca](readme-img/monaca.JPG "新規プロジェクト")
+  - Monacaで新規プロジェクトを作成する
 ![create](readme-img/monaca_new_project.JPG "新規プロジェクト")
 ![create](readme-img/monaca_new_project_2.JPG "新規プロジェクト")
 
 * Monacaでアプリ作成する: プロジェクトインポートを選択し、「URLを指定してインポートする」と選び、以下のURLからインポートする。
 https://github.com/ncmbadmin/monaca_file_updownload/archive/master.zip
 
-![newapp](readme-img/newapp.JPG "新規アプリ作成")
-
 * MonacaでカメラPhonegapプラグインを有効にさせる
 
 ![camera](readme-img/camera.JPG "カメラプラグイン")
 
 * mobile backendでアプリ作成する
-  - mobile backendで利用登録する
-    [Nifty cloud mobile backend](http://mb.cloud.nifty.com/)
+  - mobile backend 利用登録
+    [NIFTY Cloud mobile backend](http://mb.cloud.nifty.com/?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
 ![register](readme-img/register.JPG "登録画面")
 
-* monacaで作成したアプリをmobile backendサーバーと連携させる
-  - monacaでアプリキー、クライアントキーを設定し、初期化を行う: www/js/ncmb_push_start.js
+* Monacaで作成したアプリをmobile backendサーバーと連携させる
+  - Monacaでアプリケーションキー、クライアントキーを設定し、初期化を行う: www/js/ncmb_push_start.js
+
 ![initialize2](readme-img/appKeyClientKey.JPG "初期化")
+
 キーをコピーし、追記します。
+
 ![initialize](readme-img/appKeyClientKey_setting.JPG "初期化")
 
 * 動作確認
-  - monacaでビルドし、動作確認する
+  - Monacaでビルドし、動作確認します
 ![demo](readme-img/demo1.JPG "動作確認")
   - ダウンロードしたファイルを表示する
 ![demo](readme-img/demo2.JPG "動作確認")
 
 ## Usage
 
-サンプルコードをカスタマイズする、key, value変数を変更していただきます。
-以下のドキュメントを参照し、データ保存・検索・プッシュ通知を入れることができる。
-* [ドキュメント](http://mb.cloud.nifty.com/doc/current/)
-* [ドキュメント・データストア](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/datastore.html)
-* [ドキュメント・会員管理](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/user.html)
-* [ドキュメント・プッシュ通知](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/push.html)
+サンプルコードをカスタマイズすることで、様々な機能を実装できます！
+データ保存・データ検索・会員管理・プッシュ通知などの機能を実装したい場合には、
+以下のドキュメントもご参考ください。
+
+* [ドキュメント](http://mb.cloud.nifty.com/doc/current/?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
+* [ドキュメント・データストア](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/datastore.html?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
+* [ドキュメント・会員管理](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/user.html?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
+* [ドキュメント・プッシュ通知](http://mb.cloud.nifty.com/doc/current/sdkguide/javascript/push.html?utm_source=community&utm_medium=referral&utm_campaign=sample_monaca_file_updownload)
 
 
 ## Contributing
@@ -145,4 +147,4 @@ https://github.com/ncmbadmin/monaca_file_updownload/archive/master.zip
 ## License
 
 * MITライセンス
-* Nifty cloud mobile backendのJavascript SDKのライセンス
+* NIFTY Cloud mobile backendのJavascript SDKのライセンス
